@@ -41,20 +41,39 @@ function TimerList (props) {
     const resumeTimer = (id) => {
         let tempTasks = timers;
 
+        
         if (timerValue) {
             console.log("clearrrrrr")
             clearInterval(timerValue);
         }
-
-        tempTasks.filter((timer) => {
+      
+        if(!timerStopped){
+            tempTasks.map((timer) => {
+                if (timer.id == timerId) {
+                    timer.time += counter;
+                }
+                return timer;
+            })
+        }
+        
+        tempTasks.find((timer) => {
             console.log("map == ", timer.id, taskCount)
             if (timer.id == id) {
+                console.log('time in resume == ',timer.time);
                 setCounter(timer.time);
+                counter = timer.time;
             }
         })
-     
+
+        setTimers(tempTasks);        
+        setTimerId(id);
+        setTimerStopped(false);
+        timerId = id;
+        
+        console.log(counter);
+
         timerValue = setInterval(() => {
-            setCounter(counter++);
+            setCounter(++counter);
         }, 1000);
     }
 
@@ -77,9 +96,11 @@ function TimerList (props) {
         })
 
         setTimers(tempTasks)
-     
+        
+        counter = 0;
+
         timerValue = setInterval(() => {
-            setCounter(counter++);
+            setCounter(++counter);
         }, 1000);
     }
 
@@ -92,7 +113,7 @@ function TimerList (props) {
         }
         tempTasks.map((timer) => {
             console.log("map == ", timer.id, taskCount)
-            if (timer.id == taskCount) {
+            if (timer.id == id) {
                 timer.time = tempCounter;
             }
             return timer;
@@ -110,7 +131,7 @@ function TimerList (props) {
                 <div className="">
                     {timers.map((timer, index) => {
                         return (
-                            <Timer key={index}  timerTitle={timer.title} timerProject={timer.project} timerId={timer.id} timetracked={timer.time} currentId={timerId} counter={counter} stopTimer={(id) => { stopTimer(id) }} timerStopped={timerStopped} />
+                            <Timer key={index}  timerTitle={timer.title} timerProject={timer.project} timerId={timer.id} timetracked={timer.time} currentId={timerId} counter={counter} resumeTimer={(id) => { resumeTimer(id) }}  stopTimer={(id) => { stopTimer(id) }} timerStopped={timerStopped} />
                         )
                     })}
                     {

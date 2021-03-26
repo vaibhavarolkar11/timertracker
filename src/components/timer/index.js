@@ -1,9 +1,8 @@
 import React from 'react';
 import { FaEdit } from "react-icons/fa";
 import { FaStopCircle, FaPlayCircle } from "react-icons/fa";
-import moment from 'moment';
 
-const Timer = ({ timerTitle, timerProject, timerId, timetracked, currentId, counter, timerStopped, stopTimer }) => {
+const Timer = ({ timerTitle, timerProject, timerId, timetracked, currentId, counter, timerStopped, stopTimer,resumeTimer}) => {
 
     let displayCounter = (value) => {
         let sec = value % 60, min = value / (60), hour = value / (60 * 12);
@@ -18,7 +17,7 @@ const Timer = ({ timerTitle, timerProject, timerId, timetracked, currentId, coun
             </div>
             <div className="d-flex flex-row align-items-center">
                 <div className="mr-3">
-                    <h2>{((currentId != timerId)) ? displayCounter(timetracked) : (!timerStopped ? displayCounter(counter) : displayCounter(timetracked))}</h2>
+                    <h2>{((currentId == timerId) && !timerStopped) ? displayCounter(counter) : displayCounter(timetracked)}</h2>
                 </div>
                 {((currentId == timerId)) ?
                     <div className="ml-3">
@@ -26,7 +25,7 @@ const Timer = ({ timerTitle, timerProject, timerId, timetracked, currentId, coun
                     </div>
                     :
                     <div className="">
-                        <button type="button" className="btn btn-outline-success btn-timer" onClick={() => { startTimer(timerId) }}><FaPlayCircle /></button>
+                        <button type="button" className="btn btn-outline-success btn-timer" onClick={() => { resumeTimer(timerId) }}><FaPlayCircle /></button>
                     </div>
                 }
 
