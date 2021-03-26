@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaEdit } from "react-icons/fa";
-import { FaStopCircle, FaPlayCircle } from "react-icons/fa";
+import { FaStopCircle } from "react-icons/fa";
 
 const Timer = ({ timerTitle, timerProject, timerId, timetracked, currentId, counter, timerStopped, stopTimer,resumeTimer}) => {
 
