@@ -25,7 +25,10 @@ const Timer = ({ timerTitle, timerProject, timerId, timetracked, currentId, coun
                     </div>
                     :
                     <div className="">
-                        <button type="button" className="btn btn-outline-success btn-timer" onClick={() => { resumeTimer(timerId) }}><FaPlayCircle /></button>
+                        <button type="button" className="btn btn-outline-success btn-timer" data_id={timerId} onClick={(event) => { 
+                            resumeTimer(event.target.getAttribute("data_id"))
+                        
+                        }}>&#x25b6;</button>
                     </div>
                 }
 

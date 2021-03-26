@@ -39,6 +39,7 @@ function TimerList (props) {
     }
 
     const resumeTimer = (id) => {
+        console.log(id);
         let tempTasks = timers;
 
         
@@ -50,16 +51,14 @@ function TimerList (props) {
         if(!timerStopped){
             tempTasks.map((timer) => {
                 if (timer.id == timerId) {
-                    timer.time += counter;
+                    timer.time = counter;
                 }
                 return timer;
             })
         }
         
         tempTasks.find((timer) => {
-            console.log("map == ", timer.id, taskCount)
             if (timer.id == id) {
-                console.log('time in resume == ',timer.time);
                 setCounter(timer.time);
                 counter = timer.time;
             }
@@ -82,13 +81,11 @@ function TimerList (props) {
         let tempCounter = parseInt(counter);
 
         if (timerValue) {
-            console.log("clearrrrrr")
             clearInterval(timerValue);
         }
         setCounter(0);
 
         tempTasks.map((timer) => {
-            console.log("map == ", timer.id, taskCount)
             if (timer.id == timerId) {
                 timer.time = tempCounter;
             }
@@ -112,7 +109,6 @@ function TimerList (props) {
             clearInterval(timerValue);
         }
         tempTasks.map((timer) => {
-            console.log("map == ", timer.id, taskCount)
             if (timer.id == id) {
                 timer.time = tempCounter;
             }
@@ -123,8 +119,6 @@ function TimerList (props) {
         setTimerStopped(true);
         setTimerId('');
     }
-
-    console.log(timers);
   
         return (
             <div className="">
