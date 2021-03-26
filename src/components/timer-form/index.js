@@ -1,54 +1,53 @@
-import React, { Component } from 'react';
-import {
-    BrowserRouter as Router,
-    Link
-} from "react-router-dom";
+import React, { useState } from 'react';
 
-class TimerForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            taskName: '',
-            projectName: ''
-        };
+function TimerForm(props) {
+    
+    const [taskName,setTaskName] = useState('');
+    const [projectName,setProjectName] = useState('');
+    const [Error,setError] = useState('');
+
+    const handleTitleChange = (e) => {
+        setTaskName(e.target.value);
+        setError('');
     }
-    handleTitleChange = (e) => {
-        this.setState({
-            taskName: e.target.value
-        })
+
+    const handleProjectChange = (e) => {
+        setProjectName(e.target.value);
+        setError('');
     }
-    handleProjectChange = (e) => {
-        this.setState({
-            projectName: e.target.value
-        })
+
+    const handleAddTimerTolist = () => {    
+        if(taskName == '' || projectName == ''){
+            setError(taskName == ''?'Please provide task name':'Please provide project name')
+        }   
+        else{
+            let tempData = {
+                title: taskName,
+                project: projectName,
+                id: '',
+                time: ''
+            }
+            props.handleAddTimerTolist(tempData)
+        } 
     }
-    handleAddTimerTolist = () => {        
-        let tempData = {
-            title: this.state.taskName,
-            project: this.state.projectName,
-            id: '',
-            time: ''
-        }
-        this.props.handleAddTimerTolist(tempData)
-    }
-    render() {
-        return (
-            <div className="mt-5">
-                <div className="col-sm-4 mx-auto">
-                    <div className="form-group">
-                        <input className="form-control" type="text" placeholder="Task name" onChange={(e) => { this.handleTitleChange(e) }} />
-                    </div>
-                    <div className="form-group">
-                        <input className="form-control" type="text" placeholder="Project name" onChange={(e) => { this.handleProjectChange(e) }} />
-                    </div>
-                    <div className="text-center">
-                        <button className="btn btn-primary mx-2" onClick={() => { this.handleAddTimerTolist() }}>Add</button>
-                        <button className="btn btn-outline-danger mx-2" onClick={() => { this.props.handleCloseForm() }}>Remove</button>
-                    </div>
+
+    return (
+        <div className="mt-5">
+            <div className="col-sm-4 mx-auto">
+                <div className="form-group">
+                    <input className="form-control" type="text" placeholder="Task name" onChange={(e) => { handleTitleChange(e) }} />
+                </div>
+                <div className="form-group">
+                    <input className="form-control" type="text" placeholder="Project name" onChange={(e) => { handleProjectChange(e) }} />
+                </div>
+                {Error && <div className="form-error">{Error}</div>}
+                <div className="text-center">
+                    <button className="btn btn-primary mx-2" onClick={() => { handleAddTimerTolist() }}>Add</button>
+                    <button className="btn btn-outline-danger mx-2" onClick={() => { props.handleCloseForm() }}>Close</button>
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 export default TimerForm;
