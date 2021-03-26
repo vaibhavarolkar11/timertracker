@@ -1,6 +1,6 @@
 {
   "homepage": "https://vaibhavarolkar11.github.io/timertracker",
-  "name": "demo-app",
+  "name": "timertracker",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
