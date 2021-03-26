@@ -1,119 +1,131 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import Timer from '../timer';
 import TimerForm from '../timer-form';
 import { FaPlusCircle } from "react-icons/fa";
 
 let timerValue;
 
-class TimerList extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            showForm: false,
-            timers: [],
-            timerId: '',
-            taskCount: 0,
-            counter: 0,
-            timerStopped: false
-        };
+function TimerList (props) {
+
+    let [showForm,setShowForm] = useState(false);
+    let [timers,setTimers] = useState([]);
+    let [timerId,setTimerId] = useState('');
+    let [taskCount,setTaskCount] = useState(0);
+    let [counter,setCounter] = useState(0);
+    let [timerStopped,setTimerStopped] = useState(false);
+
+
+    const handleAddNewTimer = () => {
+        setShowForm(true);
     }
 
-    handleAddNewTimer = () => {
-        this.setState({
-            showForm: true
-        });
+    const handleAddTimerTolist = (value) => {
+        // console.log(value);
+        // let temObj = JSON.parse(JSON.stringify(timers));
+        value.id = taskCount + 1;
+        timers.push(value);
+        // console.log(temObj);
+
+        setTimers(timers)
+        setShowForm(false);
+        setTaskCount(taskCount + 1)
+        setTimerId(taskCount + 1);
+        
+        startTimer();
     }
 
-    handleAddTimerTolist = (value) => {
-        let temObj = JSON.parse(JSON.stringify(this.state.timers));
-        value.id = this.state.taskCount + 1;
-        temObj.push(value);
-        this.setState({
-            timers: temObj,
-            showForm: false,
-            taskCount: this.state.taskCount + 1
-        }, () => {
-            this.startTimer(this.state.taskCount);
-        })
+    const handleCloseForm = () => {
+        setShowForm(false);
     }
 
-    handleCloseForm = () => {
-        this.setState({
-            showForm: false
-        });
-    }
+    const resumeTimer = (id) => {
+        let tempTasks = timers;
 
-    startTimer = (id) => {
-        let tempTasks = this.state.timers;
-        let tempCounter = parseInt(this.state.counter);
         if (timerValue) {
-            clearInterval(timerValue);
             console.log("clearrrrrr")
+            clearInterval(timerValue);
         }
+
+        tempTasks.filter((timer) => {
+            console.log("map == ", timer.id, taskCount)
+            if (timer.id == id) {
+                setCounter(timer.time);
+            }
+        })
+     
+        timerValue = setInterval(() => {
+            setCounter(counter++);
+        }, 1000);
+    }
+
+    const startTimer = () => {
+        let tempTasks = timers;
+        let tempCounter = parseInt(counter);
+
+        if (timerValue) {
+            console.log("clearrrrrr")
+            clearInterval(timerValue);
+        }
+        setCounter(0);
+
         tempTasks.map((timer) => {
-            console.log("map == ", timer.id, this.state.taskCount)
-            if (timer.id == this.state.taskCount - 1) {
+            console.log("map == ", timer.id, taskCount)
+            if (timer.id == timerId) {
                 timer.time = tempCounter;
             }
             return timer;
         })
-        this.setState({
-            counter: 0,
-            timers: tempTasks
-        })
+
+        setTimers(tempTasks)
+     
         timerValue = setInterval(() => {
-            this.setState({
-                counter: this.state.counter + 1
-            })
+            setCounter(counter++);
         }, 1000);
     }
 
 
-    stopTimer = (id) => {
-        let tempTasks = this.state.timers;
-        let tempCounter = parseInt(this.state.counter);
+    const stopTimer = (id) => {
+        let tempTasks = timers;
+        let tempCounter = parseInt(counter);
         if (timerValue) {
             clearInterval(timerValue);
         }
         tempTasks.map((timer) => {
-            console.log("map == ", timer.id, this.state.taskCount)
-            if (timer.id == this.state.taskCount) {
+            console.log("map == ", timer.id, taskCount)
+            if (timer.id == taskCount) {
                 timer.time = tempCounter;
             }
             return timer;
         })
-        this.setState({
-            counter: 0,
-            timers: tempTasks,
-            timerStopped: true
-        })
+        setCounter(0);
+        setTimers(tempTasks)
+        setTimerStopped(true);
+        setTimerId('');
     }
 
-    render() {
-        let { timers, showForm, taskCount, counter, timerStopped } = this.state;
-        console.log(timers);
+    console.log(timers);
+  
         return (
             <div className="">
                 <div className="">
                     {timers.map((timer, index) => {
                         return (
-                            <Timer timerTitle={timer.title} timerProject={timer.project} timerId={timer.id} timetracked={timer.time} currentId={taskCount} counter={counter} stopTimer={(id) => { this.stopTimer(id) }} timerStopped={timerStopped} />
+                            <Timer key={index}  timerTitle={timer.title} timerProject={timer.project} timerId={timer.id} timetracked={timer.time} currentId={timerId} counter={counter} stopTimer={(id) => { stopTimer(id) }} timerStopped={timerStopped} />
                         )
                     })}
                     {
                         showForm &&
-                        <TimerForm handleCloseForm={() => { this.handleCloseForm() }} handleAddTimerTolist={(obj) => { this.handleAddTimerTolist(obj) }} />
+                        <TimerForm handleCloseForm={() => { handleCloseForm() }} handleAddTimerTolist={(obj) => { handleAddTimerTolist(obj) }} />
                     }
                 </div>
                 {
                     !showForm &&
                     <div className="mt-5 text-center">
-                        <button type="button" className="btn btn-outline-primary btn-timer mx-auto" onClick={() => { this.handleAddNewTimer() }}><FaPlusCircle /></button>
+                        <button type="button" className="btn btn-outline-primary btn-timer mx-auto" onClick={() => { handleAddNewTimer() }}><FaPlusCircle /></button>
                     </div>
                 }
             </div>
         );
-    }
 }
 
 export default TimerList;

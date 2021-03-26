@@ -20,14 +20,13 @@ const Timer = ({ timerTitle, timerProject, timerId, timetracked, currentId, coun
                 <div className="mr-3">
                     <h2>{((currentId != timerId)) ? displayCounter(timetracked) : (!timerStopped ? displayCounter(counter) : displayCounter(timetracked))}</h2>
                 </div>
-
-                {((currentId == timerId) || !timerStopped) ?
+                {((currentId == timerId)) ?
                     <div className="ml-3">
                         <button type="button" className="btn btn-outline-danger btn-timer" onClick={() => { stopTimer(timerId) }}><FaStopCircle /></button>
                     </div>
                     :
                     <div className="">
-                        <button type="button" className="btn btn-outline-success btn-timer" onClick={() => { stopTimer(timerId) }}><FaPlayCircle /></button>
+                        <button type="button" className="btn btn-outline-success btn-timer" onClick={() => { startTimer(timerId) }}><FaPlayCircle /></button>
                     </div>
                 }
 
