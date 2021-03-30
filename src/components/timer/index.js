@@ -24,7 +24,7 @@ const Timer = ({ timerTitle, timerProject, timerId, timetracked, currentId, coun
                         <button type="button" className="btn btn-outline-danger btn-timer" onClick={() => { stopTimer(timerId) }}><FaStopCircle /></button>
                     </div>
                     :
-                    <div className="">
+                    <div className="ml-3">
                         <button type="button" className="btn btn-outline-success btn-timer" data_id={timerId} onClick={(event) => { 
                             resumeTimer(event.target.getAttribute("data_id"))
                         

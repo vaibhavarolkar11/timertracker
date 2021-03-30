@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const ChannelItem = ({ props }) => {
+const ChannelItem = (props) => {
 
     let getInitials = (title) => {
         const namesArray = title.trim().split(' ');

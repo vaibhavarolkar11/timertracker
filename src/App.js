@@ -26,6 +26,9 @@ function App() {
             <Route exact path="/timers">
               <Timers />
             </Route>
+            <Route exact path="*">
+              <Contact />
+            </Route>
           </Switch>
           <Footer />
         </div>
