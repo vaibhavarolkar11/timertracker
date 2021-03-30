@@ -9,6 +9,7 @@ import Footer from './components/footer';
 import Homepage from './screens/homepage';
 import Contact from './screens/contact';
 import Timers from './screens/timers';
+import FlightScreen from './screens/flight-screen';
 import './assets/scss/app.scss';
 function App() {
   return (
@@ -25,6 +26,9 @@ function App() {
             </Route>
             <Route exact path="/timers">
               <Timers />
+            </Route>
+            <Route exact path="/flights">
+              <FlightScreen />
             </Route>
             <Route exact path="*">
               <Contact />

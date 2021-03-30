@@ -15,8 +15,11 @@ function Header(props) {
           <li className="mr-3">
             <Link to="/contact">Contact</Link>
           </li>
-          <li>
+          <li className="mr-3">
             <Link to="/timers">Timer</Link>
+          </li>
+          <li>
+            <Link to="/flights">Flights</Link>
           </li>
         </ul>
       </nav>
