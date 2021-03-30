@@ -20,11 +20,8 @@ function TimerList (props) {
     }
 
     const handleAddTimerTolist = (value) => {
-        // console.log(value);
-        // let temObj = JSON.parse(JSON.stringify(timers));
         value.id = taskCount + 1;
         timers.push(value);
-        // console.log(temObj);
 
         setTimers(timers)
         setShowForm(false);
@@ -39,12 +36,10 @@ function TimerList (props) {
     }
 
     const resumeTimer = (id) => {
-        console.log(id);
         let tempTasks = timers;
 
         
         if (timerValue) {
-            console.log("clearrrrrr")
             clearInterval(timerValue);
         }
       
@@ -69,8 +64,6 @@ function TimerList (props) {
         setTimerStopped(false);
         timerId = id;
         
-        console.log(counter);
-
         timerValue = setInterval(() => {
             setCounter(++counter);
         }, 1000);
@@ -120,27 +113,25 @@ function TimerList (props) {
         setTimerId('');
     }
   
-        return (
+    return (
+        <div className="">
             <div className="">
-                <div className="">
-                    {timers.map((timer, index) => {
-                        return (
-                            <Timer key={index}  timerTitle={timer.title} timerProject={timer.project} timerId={timer.id} timetracked={timer.time} currentId={timerId} counter={counter} resumeTimer={(id) => { resumeTimer(id) }}  stopTimer={(id) => { stopTimer(id) }} timerStopped={timerStopped} />
-                        )
-                    })}
-                    {
-                        showForm &&
-                        <TimerForm handleCloseForm={() => { handleCloseForm() }} handleAddTimerTolist={(obj) => { handleAddTimerTolist(obj) }} />
-                    }
-                </div>
-                {
-                    !showForm &&
-                    <div className="mt-5 text-center">
-                        <button type="button" className="btn btn-outline-primary btn-timer mx-auto" onClick={() => { handleAddNewTimer() }}><FaPlusCircle /></button>
-                    </div>
+                {timers.map((timer, index) => {
+                    return (
+                        <Timer key={index}  timerTitle={timer.title} timerProject={timer.project} timerId={timer.id} timetracked={timer.time} currentId={timerId} counter={counter} resumeTimer={(id) => { resumeTimer(id) }}  stopTimer={(id) => { stopTimer(id) }} timerStopped={timerStopped} />
+                    )
+                })}
+                {showForm &&
+                    <TimerForm handleCloseForm={() => { handleCloseForm() }} handleAddTimerTolist={(obj) => { handleAddTimerTolist(obj) }} />
                 }
             </div>
-        );
+            {!showForm &&
+                <div className="mt-5 text-center">
+                    <button type="button" className="btn btn-outline-primary btn-timer mx-auto" onClick={() => { handleAddNewTimer() }}><FaPlusCircle /></button>
+                </div>
+            }
+        </div>
+    );
 }
 
 export default TimerList;
